@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Amosoft_Dropship>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>0.1.0</version>
+    </Amosoft_Dropship>
+  </modules>
+</config>

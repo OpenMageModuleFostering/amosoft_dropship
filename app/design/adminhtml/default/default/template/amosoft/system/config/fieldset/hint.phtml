@@ -1,0 +1,132 @@
+<?php
+/**
+ * Amosoft
+ *
+ * @category    Local
+ * @package     Amosoft_Dropship
+ */
+?>
+<?php
+/**
+ *
+ * @see Mage_Paypal_Block_System_Config_Fieldset_Hint
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+if($$('.form-buttons a#page-help-link').length <= 0 ){
+	if($$('.form-buttons button').length > 0){
+		$$('.form-buttons button')[0].insert({
+			before: "<a style='color:black;padding-right:20px' target='_blank' id='page-help-link' href='<?php echo Mage::helper('dropship')->getConfigObject('apiconfig/helpurl/link'); ?>' target='magento_page_help'>Need help from amosoft?</a>"
+		});
+	}else
+	{
+		$$('.form-buttons')[0].insert({
+			top: "<a style='color:black;padding-right:20px' target='_blank' id='page-help-link' href='<?php echo Mage::helper('dropship')->getConfigObject('apiconfig/helpurl/link'); ?>' target='magento_page_help'>Need help from amosoft?</a>"
+		});
+	}
+}    
+//]]>
+</script>
+
+<div class="dropship">
+	<div class="amosoft-notice"></div>
+	<div style="clear: right; padding-top: 10px;">
+		<h3>Your Store Information </h3>
+	</div>
+	<div style="border-bottom: 1px double #000000;padding-bottom: 20px;">
+		<div style="padding-bottom: 20px;padding-top: 15px;">
+			<div style="width:120px;float:left"><label style= "display: block;width: 185px;padding-right: 15px;padding-top: 1px;">
+				Base Magento URL</label>
+			</div>
+			<div style="width: 300px; padding-right: 5px;float:left">
+				<input	id="amosoft_integration_integration_magento_base_url" value="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ); ?>" style="width: 300px;padding: 2px;" type="text" readonly="readonly">
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div style="width:500px;padding-bottom:29px;">
+			<div style="width:120px;float:left"><label style= "display: block;width: 185px;padding-right: 15px;padding-top: 1px;">
+				Magento Version</label>
+			</div>
+			<div style="width: 300px; padding-right: 5px;float:left">
+				<input	id="amosoft_integration_integration_magento_base_url" value="<?php echo Mage::getVersion() ?>" style="width:300px;padding: 2px;" type="text" readonly="readonly">
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div style="float:left;">
+			<div style="width:120px;float:left"><label style= "display: block;width: 185px;padding-right: 15px;padding-top: 1px;">
+				Magento Store IDs</label>
+			</div>
+		</div>
+		<div style="width: 314px; float:left;border:2px #000 solid;overflow: hidden;">
+			<div style="background:grey;color:#fff;font-weight:bold;text-align: center;">
+				<div style="float:left; width:50px;margin: 0 15px 0 0;background:grey;">ID</div>
+				<div style="float:left; width:177px">Store Name</div>
+				<div style="clear:both;"></div>
+			</div>
+			<div>
+				<ul>
+					<?php foreach($this->getStoreList() as $storeDetail): ?>
+						<li>
+							<div style="float:left; width:50px;margin: 0 15px 0 0;"><input	id="amosoft_integration_integration_store_list_val" value="<?php echo $storeDetail['value'] ?>" style="width:50px;padding: 2px;margin: 0 0 0 5px;" type="text" readonly="readonly"></div>
+							<div style="float:left; width:177px"><input	id="amosoft_integration_integration_store_list_label" value="<?php echo $storeDetail['label'] ?>" style="padding: 2px;" type="text" readonly="readonly"></div>
+							<div style="clear:both;"></div>							
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+
+	<div style="padding-top: 20px;">
+		<div style="clear: right">
+			<b><span>Step 1:</span>&nbsp; Create a amosoft account </b>
+		</div>
+		<div style="border-bottom: 1px double #000000; padding-bottom: 20px">
+			<span><a target="_blank" href="http://netdropship.amosoft.com/">Click Here to Sign up</a></span>&nbsp; Or if you
+			have an existing account <span><a target="_blank" href="http://netdropship.amosoft.com/"> Sign in Here</a></span>
+		</div>
+	</div>
+	<div style="border-bottom: 1px double #000000;padding-bottom: 20px;padding-top: 50px;">
+		<div style="clear: right">
+			<b><span>Step 2:</span>&nbsp; Connect amosoft to your Magento Admin Panel </b>
+		</div>
+
+		<p><span>Create your amosoft SOAP API User > <a href="<?php echo $this->getUrl('amosoft/adminhtml_amosoft/getapidetails') ?>">Click Here to
+			update your amosoft API key</a></span>&nbsp;(this is like your
+			password)</p>
+			<p>	<span>Login to <a target="_blank" href="http://netdropship.amosoft.com/">Amosoft NET Dropship</a> and navigate to <b>Settings > Setup Connection</b> > See screenshot below for fields to fill
+			</span></p>
+			<p>
+				<img border="2" width="950px" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>amosoft/setup_connection.png"/>
+				<!-- <img border="2" width="950px" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>amosoft/setup_connection2.png"/> -->
+			</p>
+			<p></p>
+
+
+		</div>
+		<div class="clear"></div>
+		<div style="padding-top: 50px;">
+			<p >
+				<b><span>Step 3:</span>&nbsp; Add to Supplier/Vendors </b>
+			</p>
+			<p>
+				<span>Login to <a href="http://netdropship.amosoft.com/" target="_blank">Amosoft NET Dropship</a> and navigate to <b>Supplier Management > Click Add New Supplier </b> 
+				</span>
+			</p>
+			<p >
+				<span>The MagVendID Supplier Code must match to the Vendor ID assigned to your supplier set up in the amosoft Portal. </span> See the below screenshot
+			</p>
+			<p>
+				<img border="2" width="950px" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>amosoft/suppliers.png"/>
+			</p>
+			<div style="clear:right;padding-bottom:50px"></div>
+			<p>
+				<p>Congratulations, you are now connected to amosoft. You can now set up your Sourcing Logic rules</p>
+				<p>For support and help on setting these up please go to <a target="_blank" href="http://help.netdropship.amosoft.com/">http://help.netdropship.amosoft.com/</a></p>
+				<p>If you have any questions or encounter any issues setting this up please contact <a href="mailto:support@amosoft.com">support@amosoft.com</a></p>
+			</p>
+		</div>
+	</div>

@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Amosoft_Dropship>
+      <version>1.0.7</version>
+    </Amosoft_Dropship>
+  </modules>
+  <global>
+   <blocks>
+    <dropship>
+      <class>Amosoft_Dropship_Block</class>
+    </dropship>
+    <adminhtml>
+      <rewrite>
+        <sales_order_view_items>Amosoft_Dropship_Block_Adminhtml_Sales_Order_View_Items</sales_order_view_items>
+      </rewrite>
+    </adminhtml>
+  </blocks>
+  
+  <helpers>
+    <dropship>
+      <class>Amosoft_Dropship_Helper</class>
+    </dropship>
+  </helpers>
+  <models>
+   <dropship>
+    <class>Amosoft_Dropship_Model</class>
+    <resourceModel>dropship_resource</resourceModel>
+  </dropship>
+  <dropship_resource>
+    <class>Amosoft_Dropship_Model_Resource</class>
+    <entities>      
+     <supplier>
+      <table>amosoft_vendor</table>
+    </supplier>
+    <inventory>
+      <table>amosoft_vendor_inventory</table>
+    </inventory>
+    <inventorylog>
+      <table>amosoft_vendor_inventory_log</table>
+    </inventorylog>
+    <ranking>
+      <table>amosoft_vendor_ranking</table>
+    </ranking>
+    <rankinglog>
+      <table>amosoft_vendor_rankinglog</table>
+    </rankinglog>
+    <ordersourcing>
+      <table>amosoft_sales_orders</table>
+    </ordersourcing>
+    <orderitems>
+      <table>amosoft_sales_orders_items</table>
+    </orderitems>
+    <uploadvendor>
+      <table>amosoft_vendor_product_import</table>
+    </uploadvendor>
+    <vendor_import_log>
+     <table>amosoft_vendor_product_import_log</table>
+   </vendor_import_log>
+   <tmpdata>
+     <table>amosoft_tmp_data</table>
+   </tmpdata> 
+   <csvtmpdata>
+    <table>amosoft_tmp_csv_dump</table>
+  </csvtmpdata> 
+  <vendor_import_log_desc>
+    <table>amosoft_vendor_product_import_log_description</table>
+  </vendor_import_log_desc>
+</entities>
+</dropship_resource>
+<sales>
+ <rewrite>
+  <order_api>Amosoft_Dropship_Model_Order_Api</order_api>
+</rewrite>
+</sales>
+<sales>
+    <rewrite>
+        <order_invoice>Amosoft_Dropship_Model_Order_Invoice</order_invoice>
+    </rewrite>
+</sales>
+<!-- <sales>
+  <rewrite>
+    <order_invoice_total_shipping>Amosoft_Dropship_Model_Sales_Order_Invoice_Total_Shipping</order_invoice_total_shipping>
+  </rewrite>
+</sales> -->
+</models>
+<resources>
+ <dropship_setup>
+  <setup>
+    <module>Amosoft_Dropship</module>
+    <class>Amosoft_Dropship_Model_Resource_Setup</class>
+  </setup>
+  <connection>
+    <use>core_setup</use>
+  </connection>
+</dropship_setup>
+<dropship_write>
+  <connection>
+    <use>core_write</use>
+  </connection>
+</dropship_write>
+<dropship_read>
+  <connection>
+    <use>core_read</use>
+  </connection>
+</dropship_read>
+</resources>
+<events>
+  <sales_order_place_after>
+    <observers>
+      <amosoft_invoice>
+        <class>dropship/observer</class>
+        <method>insertProcessOrder</method>
+      </amosoft_invoice>
+    </observers>
+  </sales_order_place_after>
+  <sales_order_shipment_save_before>
+    <observers>
+      <amosoft_shipmentemail_sales_order_shipment_save_before>
+        <type>singleton</type>
+        <class>dropship/observer</class>
+        <method>salesOrderShipmentSaveBefore</method>
+      </amosoft_shipmentemail_sales_order_shipment_save_before>
+    </observers>
+  </sales_order_shipment_save_before>
+  <sales_order_shipment_save_after>
+    <observers>
+      <amosoft_shipmentemail_sales_order_shipment_save_after>
+        <type>singleton</type>
+        <class>dropship/observer</class>
+        <method>salesOrderShipmentSaveAfter</method>
+      </amosoft_shipmentemail_sales_order_shipment_save_after>
+    </observers>
+  </sales_order_shipment_save_after>
+  <catalog_product_delete_after> 
+    <observers>
+      <amosoft_catalog_product_delete_after>
+        <type>singleton</type>
+        <class>dropship/observer</class>
+        <method>catalogProductDeleteAfter</method>
+      </amosoft_catalog_product_delete_after>
+    </observers>
+  </catalog_product_delete_after>     
+</events>
+<template>
+  <email>
+    <amosoft_email_email_template translate="label" module="dropship">
+      <label>amosoft</label>
+      <file>amosoft/amosoft.html</file>
+      <type>html</type>
+    </amosoft_email_email_template>
+    <amosoft_ftp_con_fail translate="label" module="dropship">
+      <label>amosoft ftp connection fail</label>
+      <file>amosoft/amosoft_ftp_con_fail.html</file>
+      <type>html</type>
+    </amosoft_ftp_con_fail>
+    <amosoft_order_notification translate="label" module="dropship">
+      <label>amosoft first order notification</label>
+      <file>amosoft/first_order_notification.html</file>
+      <type>html</type>
+    </amosoft_order_notification>
+    <amosoft_activty_report_staticstatus translate="label" module="dropship">
+      <label>static status report notification</label>
+      <file>amosoft/activity_report_staticstatus.html</file>
+      <type>html</type>
+    </amosoft_activty_report_staticstatus>
+    <amosoft_outdated_product_inventory>
+     <label>Outdated product inventory notification</label>
+     <file>amosoft/oudated_product_inventory_notification.html</file>
+     <type>html</type>
+   </amosoft_outdated_product_inventory>
+   <amosoft_productsetup_notification translate="label" module="dropship">
+    <label>amosoft first productsetup notification</label>
+    <file>amosoft/first_productsetup_notification.html</file>
+    <type>html</type>
+  </amosoft_productsetup_notification>
+</email>
+</template>
+
+</global>
+
+<admin>
+  <routers>
+    <amosoft>
+      <use>admin</use>
+      <args>
+        <module>Amosoft_Dropship</module>
+        <frontName>amosoft</frontName>
+      </args>
+    </amosoft>
+  </routers>
+</admin>
+<adminhtml>
+  <layout>
+   <updates>
+    <dropship>
+     <file>amosoftdropship.xml</file>
+   </dropship>
+ </updates>
+</layout>
+<translate>
+  <modules>
+    <Amosoft_Dropship>
+      <files>
+        <default>Amosoft_Dropship.csv</default>
+      </files>
+    </Amosoft_Dropship>
+  </modules>
+</translate>
+<events>
+  <catalog_product_save_after>
+    <observers>
+      <amosoft_save_product_data>
+        <type>singleton</type>
+        <class>dropship/observer</class>
+        <method>saveProductTabData</method>
+      </amosoft_save_product_data>
+    </observers>
+  </catalog_product_save_after>
+</events>
+</adminhtml>
+<default>
+  <carriers>
+    <suppliershippingcostperproduct>
+         <active>1</active>
+         <model>dropship/carrier_flatrateperproduct</model>
+         <title>Shipping</title>
+         <name>Supplier Cost</name>
+         <price>5.00</price>
+         <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+    </suppliershippingcostperproduct>
+  </carriers>
+  <amosoft_integration>
+    <integration>
+      <api_user_name>AmosoftIntegration</api_user_name>
+      <processing_status>proceesing</processing_status>
+      <error_status>error</error_status>
+      <sentto_warehouse_status>sent_to_warehouse</sentto_warehouse_status>
+      <ds360_version>3.1.1</ds360_version>
+    </integration>
+  </amosoft_integration>
+  <amosoft_cron>
+  </amosoft_cron>
+  <amosoft_sourcing>
+    <rank>
+      <ranktype>cost</ranktype>
+      <defaultbackorder>none</defaultbackorder>
+      <email_shipment>0</email_shipment>
+      <sourcing_type>1</sourcing_type>
+    </rank>
+    <inventory>
+     <buffer>0</buffer> 
+   </inventory>
+   <cron_settings>
+     <sourcing_time>-2,10</sourcing_time>
+     <backorder_time>-1,0</backorder_time>
+   </cron_settings>
+   <cron_settings_upload>
+    <enabled>0</enabled>
+    <time>23,59</time>
+  </cron_settings_upload>
+</amosoft_sourcing>
+</default>
+
+
+<apiconfig>
+  <termsandconditions>
+    <link>http://www.amosoft.com/magento-edi-connector-agreement/</link>
+  </termsandconditions>
+  <helpurl>
+    <link>http://help.netdropship.amosoft.com/</link>
+  </helpurl>
+  <email>
+   <toaddress>magentoext@amosoft.com</toaddress>
+   <bcc>support@amosoft.com</bcc>
+   <toname>amosoft</toname>
+   <subject>amosoft new extesnion Installation</subject>
+ </email>
+ <soap_role>__root__,dropship,dropship/versions,dropship/versions/dropship,core,core/magento,core/magento/info,core/store,core/store/list,core/store/info,catalog,catalog/product,catalog/product/create,catalog/product/info,catalog/product/attributes,catalog/product/update_tier_price,catalog/product/delete,catalog/product/update,catalog/product/attribute,catalog/product/attribute/info,catalog/product/attribute/option,catalog/product/attribute/option/remove,catalog/product/attribute/option/add,catalog/product/attribute/set,catalog/product/attribute/set/group_add,catalog/product/attribute/set/group_rename,catalog/product/attribute/set/group_remove,catalog/product/attribute/set/attribute_remove,catalog/product/attribute/set/attribute_add,catalog/product/attribute/set/create,catalog/product/attribute/set/remove,catalog/product/attribute/set/list,catalog/product/attribute/remove,catalog/product/attribute/update,catalog/product/attribute/write,catalog/product/attribute/types,catalog/product/attribute/create,catalog/product/attribute/read,catalog/product/link,catalog/product/link/remove,catalog/product/link/update,catalog/product/link/assign,catalog/product/media,catalog/product/media/remove,catalog/product/media/update,catalog/product/media/create,catalog/product/tag,catalog/product/tag/remove,catalog/product/tag/update,catalog/product/tag/add,catalog/product/tag/info,catalog/product/tag/list,catalog/product/option,catalog/product/option/list,catalog/product/option/remove,catalog/product/option/add,catalog/product/option/info,catalog/product/option/types,catalog/product/option/update,catalog/product/option/value,catalog/product/option/value/remove,catalog/product/option/value/update,catalog/product/option/value/add,catalog/product/option/value/info,catalog/product/option/value/list,sales,sales/order,sales/order/updateitemstatus,sales/order/getamosoftorderbyitemstatus,sales/order/setamosoftorderitemstatus,sales/order/creditmemo,sales/order/creditmemo/list,sales/order/creditmemo/info,sales/order/creditmemo/cancel,sales/order/creditmemo/comment,sales/order/creditmemo/create,sales/order/invoice,sales/order/invoice/cancel,sales/order/invoice/info,sales/order/invoice/void,sales/order/invoice/capture,sales/order/invoice/comment,sales/order/invoice/create,sales/order/info,sales/order/shipment,sales/order/shipment/send,sales/order/shipment/info,sales/order/shipment/track,sales/order/shipment/comment,sales/order/shipment/create,sales/order/change,cataloginventory,cataloginventory/update</soap_role>
+</apiconfig>
+<crontab>
+  <jobs>
+    <amosoft_dropship>
+     <run>
+      <model>dropship/observer::amosoftSourcing</model>
+    </run>
+  </amosoft_dropship>
+  <amosoft_backorder>
+   <run>
+    <model>dropship/observer::amosoftBackorder</model>
+  </run>
+</amosoft_backorder>
+<amosoft_uploadvendor>
+ <run>
+  <model>dropship/uploadvendor::ftpParseCsv</model>
+</run>
+</amosoft_uploadvendor> 
+<amosoft_report_email>
+ <run>
+  <model>dropship/report::sendNotification</model>
+</run>
+</amosoft_report_email>  
+<amosoft_oudated_product_inventory_cron>
+ <run>
+  <model>dropship/observer::notifyForProductUpdateInventory</model>
+</run>
+</amosoft_oudated_product_inventory_cron> 
+</jobs>
+</crontab>   
+</config> 

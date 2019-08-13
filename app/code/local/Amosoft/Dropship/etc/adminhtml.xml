@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<config>
+  <acl>
+     <resources>
+        <admin>
+           <children>
+              <system>
+                 <children>
+                    <config>
+                       <children>
+                          <amosoft_integration translate="title" module="dropship">
+                             <title>General Information</title>
+                             <sort_order>1</sort_order>
+                         </amosoft_integration>
+                         <amosoft_sourcing translate="title" module="dropship">
+                             <title>Sourcing Section</title>
+                             <sort_order>2</sort_order>
+                         </amosoft_sourcing>
+                         <amosoft_cron translate="title" module="dropship">
+                             <title>Cron Settings</title>
+                             <sort_order>2</sort_order>
+                         </amosoft_cron>
+                     </children>
+                 </config>
+             </children>
+         </system>
+         <dropship translate="title" module="dropship">
+            <title>amosoft</title>
+            <sort_order>91</sort_order>
+            <children>
+                <suppliers translate="title">
+                    <title>Vendor</title>
+                </suppliers>
+                <inventory translate="title">
+                    <title>Vendor/Supplier Inventory</title>
+                </inventory>
+                <vendor_ranking translate="title">
+                    <title>Vendor/Supplier Ranking</title>
+                </vendor_ranking>
+                <order_sourcing translate="title">
+                    <title>Vendor/Supplier Sourcing</title>
+                </order_sourcing>
+                <!-- <bar_report>
+                   <title>Activity Report</title>
+                </bar_report> -->
+                <integration translate="title">
+                <title>Vendor/Supplier Information</title>
+            </integration>
+        </children>
+    </dropship>
+</children>
+</admin>
+</resources>
+</acl>
+
+<menu>
+    <dropship translate="title" module="dropship">
+        <title>NET Dropship</title>
+        <sort_order>91</sort_order>
+        <children>
+         <inventory translate="title">
+            <title>Vendor/Supplier Inventory</title>
+            <action>amosoft/adminhtml_upload</action>
+            <sort_order>12</sort_order>
+        </inventory>
+        <vendor_ranking translate="title">
+            <title>Vendor/Supplier Management</title>
+            <action>amosoft/adminhtml_ranking</action>
+            <sort_order>13</sort_order>
+        </vendor_ranking>
+        <order_sourcing translate="title">
+            <title>Order Management</title>
+            <action>amosoft/adminhtml_sourcing/sourcinggrid</action>
+            <sort_order>11</sort_order>
+        </order_sourcing>
+        <!-- <bar_report translate="title">
+            <title>Activity Monitor</title>
+            <action>amosoft/adminhtml_report/activitymonitor</action>
+            <sort_order>14</sort_order>
+        </bar_report> -->
+        <amosoft_integration translate="title">
+            <title>Getting Started</title>
+            <action>adminhtml/system_config/edit/section/amosoft_integration</action>
+            <sort_order>16</sort_order>
+        </amosoft_integration>
+        <amosoft_sourcing translate="title">
+            <title>Configuration/Setup</title>
+            <action>adminhtml/system_config/edit/section/amosoft_sourcing</action>
+            <sort_order>15</sort_order>
+        </amosoft_sourcing>
+            <!-- <upload_vendor_product translate="title">
+                <title>Upload Vendor Product</title>
+                <action>dropship/adminhtml_upload/index</action>
+                <sort_order>17</sort_order>
+            </upload_vendor_product> -->
+            </children>
+        </dropship>
+    </menu>
+</config>

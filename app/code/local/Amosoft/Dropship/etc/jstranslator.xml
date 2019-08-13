@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ */
+-->
+<jstranslator>
+    <validate-url-amosoft translate="message" module="dropship">
+        <message>Please enter a valid URL. Protocol is required (http://, https:// or ftp://)</message>
+    </validate-url-amosoft>
+    <validate-one-required-by-name-amosoft translate="message" module="dropship">
+       <message>Please select one of the options.</message>
+    </validate-one-required-by-name-amosoft>
+</jstranslator>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+    name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+			 
+			 <complexType name="salesOrderListEntity">
+                <all>
+                   <element name="item_details" type="typens:salesOrderListAmosoftItemEntityArray" minOccurs="0" />
+                    <element name="dropship_item" type="xsd:int" minOccurs="0" />
+                </all>
+            </complexType>
+            
+            <complexType name="salesOrderListAmosoftItemEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:salesOrderListAmosoftItemEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            
+            <complexType name="salesOrderListAmosoftItemEntity">
+                <all>
+					<element name="item_sku" type="xsd:string" minOccurs="0" />
+                    <element name="amosoft_vendor_sku" type="xsd:string" minOccurs="0" />
+                    <element name="amosoft_vendor_code" type="xsd:string" minOccurs="0" />
+                    <element name="amosoft_vendor_cost" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            
+			 <complexType name="salesOrderItemEntity">
+                <all>
+					<element name="amosoft_item_status" type="xsd:string" minOccurs="0" />
+                    <element name="amosoft_vendor_sku" type="xsd:string" minOccurs="0" />
+                    <element name="amosoft_vendor_code" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="salesOrderAmosoftEntity">
+                <all>
+                    <element name="ResultCount" type="xsd:int" minOccurs="0" />
+                    <element name="orderDetails" type="typens:salesOrderAmosoftStatusEntityArray" minOccurs="0" />
+                    <element name="error_message" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+           <complexType name="salesOrderAmosoftStatusEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:salesOrderAmosoftStatusEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            
+              <complexType name="salesOrderAmosoftStatusEntity">
+                <all>
+					<element name="increment_id" type="xsd:string" minOccurs="0" />
+                    <element name="error_message" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            
+            <complexType name="salesOrderSetAmosoftStatusEntity">
+                <all>
+					<element name="success_message" type="xsd:string" minOccurs="0" />
+                    <element name="error_message" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            
+            <complexType name="salesOrderGetAmosoftStatusConfig">
+                <all>
+					<element name="begin_sourcing" type="xsd:string" minOccurs="0" />
+                    <element name="awaiting_transmission" type="xsd:string" minOccurs="0" />
+                    <element name="backorder" type="xsd:string" minOccurs="0" />                    
+                    <element name="sourcing_complete" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            
+            <complexType name="versionsGetdropshipversion">
+                <all>
+					<element name="magentoVer" type="xsd:string" minOccurs="0" />
+                    <element name="dropshipVer" type="xsd:string" minOccurs="0" />
+                    <element name="dropshipDbScriptVer" type="xsd:string" minOccurs="0" />                    
+                </all>
+            </complexType>
+        </schema>
+    </types>
+    
+   <message name="salesOrderUpdateItemStatusRequest">
+      <part name="sessionId" type="xsd:string"/>
+      <part name="orderId" type="xsd:string"/>
+      <part name="items" type="typens:ArrayOfString"/>
+      <part name="status" type="xsd:string"/>
+   </message>
+   <message name="salesOrderUpdateItemStatusResponse">
+      <part name="result" type="xsd:boolean"/>
+   </message>
+   
+   <message name="salesOrderGetAmosoftOrderByItemStatusRequest">
+      <part name="sessionId" type="xsd:string"/>
+      <part name="storeId" type="xsd:string"/>
+      <part name="itemStatus" type="xsd:string"/>
+   </message>
+   <message name="salesOrderGetAmosoftOrderByItemStatusResponse">
+       <part name="result" type="typens:salesOrderAmosoftEntity" />
+   </message>
+   
+    <message name="salesOrderSetAmosoftOrderItemStatusRequest">
+      <part name="sessionId" type="xsd:string"/>
+      <part name="orderIncrementId" type="xsd:string"/>
+      <part name="itemStatus" type="xsd:string"/>
+   </message>
+   <message name="salesOrderSetAmosoftOrderItemStatusResponse">
+       <part name="result" type="typens:salesOrderSetAmosoftStatusEntity" />
+   </message>
+   
+<message name="versionsGetdropshipversionRequest">
+      <part name="sessionId" type="xsd:string"/>
+   </message>
+    <message name="versionsGetdropshipversionResponse">
+      <part name="result" type="typens:versionsGetdropshipversion" />
+   </message>
+   
+   <portType name="{{var wsdl.handler}}PortType">
+		<operation name="salesOrderUpdateItemStatus">
+			 <documentation>Update Amosoft Item Status</documentation>
+			 <input message="typens:salesOrderUpdateItemStatusRequest"/>
+			 <output message="typens:salesOrderUpdateItemStatusResponse"/>
+		</operation>
+		<operation name="salesOrderGetAmosoftOrderByItemStatus">
+			 <documentation>Retrive order by item status</documentation>
+			 <input message="typens:salesOrderGetAmosoftOrderByItemStatusRequest"/>
+			 <output message="typens:salesOrderGetAmosoftOrderByItemStatusResponse"/>
+		</operation>
+		<operation name="salesOrderSetAmosoftOrderItemStatus">
+			 <documentation>Set item Status </documentation>
+			 <input message="typens:salesOrderSetAmosoftOrderItemStatusRequest"/>
+			 <output message="typens:salesOrderSetAmosoftOrderItemStatusResponse"/>
+		</operation>	
+		
+        <operation name="versionsGetdropshipversion">
+			 <documentation>this is an example of api method</documentation>
+			 <input message="typens:versionsGetdropshipversionRequest"/>
+			 <output message="typens:versionsGetdropshipversionResponse"/>
+		</operation>
+	</portType>
+	<binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+	 	<operation name="salesOrderUpdateItemStatus">
+         <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+         <input>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </input>
+         <output>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </output>
+		</operation>
+		<operation name="salesOrderGetAmosoftOrderByItemStatus">
+         <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+         <input>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </input>
+         <output>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </output>
+		</operation>
+		<operation name="salesOrderSetAmosoftOrderItemStatus">
+         <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+         <input>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </input>
+         <output>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </output>
+		</operation>
+		<operation name="versionsGetdropshipversion">
+         <soap:operation soapAction="urn:{{var wsdl.handler}}Action"/>
+         <input>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </input>
+         <output>
+            <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+         </output>
+		</operation>
+	 </binding> 
+</definitions>

@@ -1,0 +1,455 @@
+<?php 
+/**
+ * Amosoft
+ *
+ * @category    Local
+ * @package     Amosoft_Dropship
+ */
+?>
+<?php $helper = Mage::helper('dropship')?>
+<?php $dropshipVendorCollection = $this->getVendorCollection('yes'); ?>
+<?php $nonDropshipVendorCollection = $this->getVendorCollection('no'); ?>
+<style type="text/css">
+
+
+</style>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<?php if(Mage::getStoreConfig('amosoft_sourcing/rank/ranktype') == 'cost'): ?>
+<div id="warning-message"><ul class="messages"><li class="warning-msg"><ul><li><span>Cost Based sourcing rule is currently selected. Vendor ranking will only take effect when Rank Based sourcing rule is selected in the Sourcing Configuration page.</span></li></ul></li></ul></div>
+<?php endif; ?>
+<div id="notice-message"><ul class="messages"><li class="notice-msg"><ul><li><span>To remove an Active Vendor from dropship Sourcing Rule, drag it to the Non Active Vendors section on the right. To activate that Vendor again, simply drag it back to the Active Vendors section.</span></li></ul></li></ul></div>
+
+<div id="message"><ul class="messages"><li class="error-msg"><ul><li><span>You Have Unsubmitted Changes.</span></li></ul></li></ul></div>
+<div id="panel"></div>
+<div class="clear"></div>
+<div>
+    <?php echo $this->getChildHtml('supplier.upload') ?>
+</div>
+<script type="text/javascript">
+var arrVendorName = [];
+var arrVendorProductLink = [];
+var arrDropship = <?php echo $dropshipVendorCollection['arrayData'] ?>;
+var arrNonDropship = <?php echo $nonDropshipVendorCollection['arrayData'] ?>;
+var addNew = 1;
+$('message').hide();
+
+Ext.require([
+    'Ext.grid.*',
+    'Ext.data.*',
+    'Ext.dd.*'
+]);
+
+Ext.define('DataObject', {
+    extend: 'Ext.data.Model',
+    fields: ['name', 'code','link']
+});
+
+Ext.onReady(function(){	
+	var dropShipData = <?php echo $dropshipVendorCollection['gridData'] ?>
+    // create the data store
+    var firstGridStore = Ext.create('Ext.data.Store', {
+        model: 'DataObject',
+        data: dropShipData,
+	});
+	var pTypes = Ext.create('Ext.data.Store', {
+        fields : ['link', 'name'],
+        data   : <?php echo $this->getAttributeCode(); ?>
+    });
+
+    // Column Model shortcut array
+    var columns1 = [
+		Ext.create('Ext.grid.RowNumberer',{dataIndex:'id',xtype: 'rownumberer',text:'Ranking',align: 'right',width:50}),
+		{text: "Vendor Name", flex: 1,hideable:false, sortable: false, dataIndex: 'name',editor : {
+                    xtype: 'textfield',
+                    allowBlank:false
+                }},
+		{text: "Vendor Code", flex: 1,hidden:false,hideable:false,sortable: false, dataIndex: 'code'},
+		{text: 'Link Product',dataIndex: 'link',width: 130,
+		renderer : function (value) {
+                    switch (value) {
+						case '<?php echo $helper::AMOSOFT_PRODUCT_LINK_CODE_UPC ?>':
+							return '<?php echo $helper::AMOSOFT_PRODUCT_LINK_UPC ?>';
+							break;
+						case '<?php echo $helper::AMOSOFT_PRODUCT_LINK_CODE_MNP ?>':
+							return '<?php  echo $helper::AMOSOFT_PRODUCT_LINK_MNP ?>';
+							break;
+						case '<?php echo $helper::AMOSOFT_PRODUCT_LINK_CODE_SKU ?>':
+							return '<?php  echo $helper::AMOSOFT_PRODUCT_LINK_SKU ?>';
+							break;
+						default:
+							return '<?php echo $helper::AMOSOFT_PRODUCT_LINK_NONE ?>';
+                    }
+                },
+		editor: new Ext.form.field.ComboBox({
+					store        : pTypes,
+                    displayField : 'name',
+                    valueField   : 'link',
+                    queryMode    : 'local',
+					editable: false,
+					listeners: { 
+					select: function(combo, records) {
+					var vendCode = combo.up('grid').editingPlugin.activeRecord.data.code;
+					var proLink = records[0].data.link;
+					updateProductLink(vendCode, proLink,arrVendorProductLink)
+					}
+					}
+            })
+        }
+    ];
+
+    var columns2 = [
+                    {text: "Vendor Name", flex: 1,sortable: false,hideable:false, dataIndex: 'name',editor : {
+                    xtype: 'textfield',
+                    allowBlank:false
+                }},
+				{text: "Vendor Code", flex: 1,hidden:false,hideable:false,dataIndex: 'code',sortable: false}
+                ];
+            	
+     // create the destination Grid
+	  var rowEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+        clicksToMoveEditor: 2,
+        autoCancel: false
+    });
+    // declare the source Grid
+    var firstGrid = Ext.create('Ext.grid.Panel', {
+        viewConfig: {
+            plugins: {
+                ptype: 'gridviewdragdrop',
+            },
+            listeners: {
+                drop: function(node, data, dropRec, dropPosition) {
+					var dropName = dropRec ? dropRec.get('code') : '';
+					var id = 1;
+					
+					$$('.x-grid-cell-row-numberer .x-grid-cell-inner ').each(function(item){
+						item.innerHTML = id++;
+					})
+					arrDropship.each(function(item,index){
+					
+						if(item.code == data.records[0].get('code')){
+						arrDropship.splice(index,1);
+						}
+					})
+					if(dropPosition === 'undefined' || dropName == '')
+                    {
+					
+					arrDropship.push({name:data.records[0].get('name'),code:data.records[0].get('code')});
+					
+                    }else
+					{
+						var firstindexLoc;
+						arrDropship.each(function(item,index){
+					
+						if(item.code == dropName){
+						firstindexLoc = index
+						}
+					})
+						if(dropPosition == 'after')
+						{
+							
+							firstindexLoc = firstindexLoc+1;
+							arrDropship.splice(firstindexLoc, 0, {name:data.records[0].get('name'),code:data.records[0].get('code')});
+							indexLoc = 0;
+						}else
+						{
+						
+							arrDropship.splice(firstindexLoc, 0, {name:data.records[0].get('name'),code:data.records[0].get('code')});
+							indexLoc = 0;
+					
+						}
+                    }
+                    
+						var fristIndextemp;
+						arrNonDropship.each(function(item,index){
+					
+						if(item.code == data.records[0].get('code')){
+						fristIndextemp = index
+						}
+					})
+					if (arrNonDropship.length > 0 && fristIndextemp > -1) {
+							arrNonDropship.splice(fristIndextemp, 1);
+						}
+					$('message').show();
+                },
+		beforedrop: function(node, data, dropRec, dropPosition,dropHandlers){
+		(data.records[0].data.link) ? updateProductLink(data.records[0].data.code, data.records[0].data.link,arrVendorProductLink) : data.records[0].data.link = ''
+                }
+            }
+        },
+        store            : firstGridStore,
+        columns          : columns1,
+        stripeRows       : true,
+        title            : 'Active Vendors',
+        margins          : '0 2 0 0',
+		tbar: [{
+            text: 'Add Active Vendors',
+			xtype: 'button',
+            iconCls: 'vendor-add',
+			handler : function() {
+                rowEditing.cancelEdit();
+
+                // Create a model instance
+                var r = Ext.create('DataObject', {
+                    name: 'New Vendor',
+                    code: 'temp_amosoft_vendor_code',
+				});
+				var rowNumber = ($$('.x-grid-cell-row-numberer .x-grid-cell-inner ').length);
+                firstGridStore.insert(rowNumber, r);
+                rowEditing.startEditByPosition({row: rowNumber, column: 1});
+            }
+        }],
+		plugins: [rowEditing],
+        listeners: {
+                edit: function(e, editor) {
+						var isAvailable;
+						var isNew = false;
+						var rowObject = editor.row.getElementsByClassName('x-grid-cell-inner');
+						if(rowObject[2].innerHTML.match(/temp_amosoft_vendor_code/g)){
+						var tempClass = editor.row.getElementsByClassName('x-grid-cell')[0].className 
+						editor.row.getElementsByClassName('x-grid-cell')[0].className = tempClass+' x-grid-dirty-cell'; 
+						firstGrid.setLoading();
+						Ext.Ajax.request({
+									url: '<?php echo Mage::getSingleton('adminhtml/url')->getUrl('*/*/addNewVendor') ?>',
+									params:{name:editor.record.data['name'],code:rowObject[2].innerHTML,form_key:'<?php echo Mage::getSingleton('core/session')->getFormKey() ?>',rank:$$('.x-grid-cell-row-numberer .x-grid-cell-inner ').length},
+									method : 'POST',
+									success: function(action){
+									var msg_server = Ext.decode(action.responseText);
+										if (msg_server.success == true){
+											// Great, commit the record to hide the red changed flags
+											editor.record.set('code',msg_server.message);
+											editor.record.commit();
+											firstGrid.getSelectionModel().selection = null
+											firstGrid.getView().refresh();
+											firstGrid.setLoading(false);
+											arrDropship.push({name:editor.record.data['name'],code:msg_server.message});
+											isNew = true;
+											Ext.Msg.alert('Vendor '+editor.record.data['name']+' Add Successfuly');
+											$('message').hide();
+											  } 
+													},
+									failure: function(action){
+									isNew = true;
+										Ext.Msg.alert('Please Try Again Later');
+										firstGrid.setLoading(false);
+										}
+							});
+						}
+						if(editor.record.dirty && !isNew && editor.colIdx == 1){
+						if(arrVendorName.length > 0){
+						var removeIndex
+						arrVendorName.each(function(item,index){
+					
+						if(item.code == rowObject[2].innerHTML){
+						isAvailable = true
+						removeIndex = index
+						}
+							})
+						}
+						if(isAvailable){
+								arrVendorName.splice(removeIndex, 1);
+								arrVendorName.push({name:editor.record.data['name'],code:rowObject[2].innerHTML})
+						}else
+						{
+							arrVendorName.push({name:editor.record.data['name'],code:rowObject[2].innerHTML})
+						}
+							$('message').show();}
+							
+						return;
+						
+                },
+				
+			canceledit : function (e, editor){
+						var rowObject = editor.row.getElementsByClassName('x-grid-cell-inner');
+						if(rowObject[2].innerHTML.match(/temp_amosoft_vendor_code/g)){
+								var sm = firstGrid.getSelectionModel();
+								rowEditing.cancelEdit();
+								firstGridStore.remove(sm.getSelection());
+								if (secondGridStore.getCount() > 0) {
+									sm.select(0);
+								}
+						}
+					}
+            },
+		
+		selType: 'cellmodel'
+            
+    });
+
+	var nonDropShipData = <?php echo $nonDropshipVendorCollection['gridData'] ?>
+    // create the data store
+    var secondGridStore = Ext.create('Ext.data.Store', {
+        model: 'DataObject',
+		data: nonDropShipData,
+	});
+
+   
+
+	 
+    var secondGrid = Ext.create('Ext.grid.Panel', {
+        viewConfig: {
+            plugins: {
+                ptype: 'gridviewdragdrop',
+                //dragGroup: 'secondGridDDGroup',
+                //dropGroup: 'firstGridDDGroup'
+            },
+            listeners: {
+                drop: function(node, data, dropRec, dropPosition) {
+                    //var dropOn = dropRec ? ' ' + dropPosition + ' ' + dropRec.get('name') : ' on empty view';
+                    var dropName = dropRec ? dropRec.get('code') : '';
+					var code = data.records[0].get('code');
+					var id = 1;
+					
+					$$('.x-grid-cell-row-numberer .x-grid-cell-inner ').each(function(item){
+						item.innerHTML = id++;
+					})
+					if(dropPosition === 'undefined' || dropName == '')
+                    {
+					
+					arrNonDropship.push({name:data.records[0].get('name'),code:data.records[0].get('code')});
+					
+                    }else
+					{
+						
+						var indexLoc;
+						arrDropship.each(function(item,index){
+					
+						if(item.code == dropName){
+						indexLoc = index
+						}
+					})
+						arrNonDropship.each(function(item,index){
+					
+						if(item.code == data.records[0].get('code')){
+						arrNonDropship.splice(index,1);
+						}
+					})
+						if(dropPosition == 'after')
+						{
+							indexLoc = indexLoc+1;
+							arrNonDropship.splice(indexLoc, 0, {name:data.records[0].get('name'),code:data.records[0].get('code')});
+							indexLoc = 0;
+						}else
+						{
+							arrNonDropship.splice(indexLoc, 0, {name:data.records[0].get('name'),code:data.records[0].get('code')});
+							indexLoc = 0;
+					
+						}
+                    }
+					updateGridData(data,arrDropship,false);
+					updateGridData(data,arrVendorProductLink,true);
+					
+                }
+            }
+        },
+        store            : secondGridStore,
+        columns          : columns2,
+        stripeRows       : true,
+        title            : 'Non Active Vendors',
+        margins          : '0 0 0 3',
+		plugins: [
+            Ext.create('Ext.grid.plugin.CellEditing', {
+                clicksToEdit : 2,
+            listeners: {
+                edit: function(editor, e, eOpts) {				
+						var isAvailable;
+						var rowObject = e.row.getElementsByClassName('x-grid-cell-inner');
+						
+						if(e.record.dirty){
+						if(arrVendorName.length > 0){
+						
+						
+						var removeIndex
+						arrVendorName.each(function(item,index){
+					
+						if(item.code == rowObject[1].innerHTML){
+						isAvailable = true
+						removeIndex = index
+						}
+							})
+						}
+						if(isAvailable){
+								arrVendorName.splice(removeIndex, 1);
+								arrVendorName.push({name:e.record.data['name'],code:rowObject[1].innerHTML})
+						}else
+						{
+							arrVendorName.push({name:e.record.data['name'],code:rowObject[1].innerHTML})
+						}
+							$('message').show();}
+						return;
+						
+                }   
+            }
+            })
+        ],
+		selType: 'cellmodel'
+    });
+	
+    //Simple 'border layout' panel to house both grids
+    var displayPanel = Ext.create('Ext.Panel', {
+        width        : 1205,
+        height       : 500,
+        layout       : {
+            type: 'hbox',
+            align: 'stretch',
+            padding: 5
+        },
+        renderTo     : 'panel',
+        defaults     : { flex : 1 }, //auto stretch
+        items        : [
+            firstGrid,
+            secondGrid
+        ]
+    });
+    
+    
+});
+
+function updateGridData(data,tmpArray,isLink)
+{
+	var indextemp;
+		tmpArray.each(function(item,index){
+	
+		if(item.code == data.records[0].get('code')){
+		indextemp = index
+		}
+	})	
+	if (tmpArray.length > 0 && indextemp > -1) {
+			(!isLink) ? tmpArray.splice(indextemp, 1) : tmpArray[indextemp].attr = ""
+			$('message').show();
+		}else
+		{
+			(isLink) ? tmpArray.push({code:data.records[0].get('code'),attr:""}) : ''
+			$('message').hide();
+		}
+}
+
+function updateProductLink(vendCode, proLink,prolinkArray) {
+					var isAvailable = false;
+					var removeIndex
+					//var vendCode = combo.up('grid').editingPlugin.activeRecord.data.code;
+					//var proLink = records[0].data.link;
+					if(prolinkArray.length > 0){
+						prolinkArray.each(function(item,index){
+							if(item.code == vendCode){
+								isAvailable = true
+								removeIndex = index
+						}
+							})
+					}
+					if(isAvailable){
+								prolinkArray.splice(removeIndex, 1);
+								prolinkArray.push({code:vendCode,attr:proLink})
+						}else
+						{
+							prolinkArray.push({code:vendCode,attr:proLink})
+						}
+					}
+</script>
+

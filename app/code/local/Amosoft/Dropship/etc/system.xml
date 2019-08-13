@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<config>
+  <sections>
+    <carriers>
+      <groups>
+        <suppliershippingcostperproduct translate="label" module="dropship">
+          <label>Supplier Cost Per Product</label>
+          <frontend_type>text</frontend_type>
+          <sort_order>99</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <active translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </active>
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+            <name translate="label">
+              <label>Method Name</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </name>
+            <price translate="label">
+              <label>Price</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </price>
+            <specificerrmsg translate="label">
+              <label>Displayed Error Message</label>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </specificerrmsg>
+            <sallowspecific translate="label">
+              <label>Ship to Applicable Countries</label>
+              <frontend_type>select</frontend_type>
+              <sort_order>90</sort_order>
+              <frontend_class>shipping-applicable-country</frontend_class>
+              <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </sallowspecific>
+            <specificcountry translate="label">
+              <label>Ship to Specific Countries</label>
+              <frontend_type>multiselect</frontend_type>
+              <sort_order>91</sort_order>
+              <source_model>adminhtml/system_config_source_country</source_model>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <can_be_empty>1</can_be_empty>
+            </specificcountry>
+            <sort_order translate="label">
+              <label>Sort Order</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>100</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </sort_order>   
+          </fields>
+        </suppliershippingcostperproduct>
+      </groups>
+    </carriers>
+  </sections>
+  <tabs>
+    <dropship translate="label" module="dropship">
+      <label>dropship</label>
+      <sort_order>500</sort_order>
+    </dropship>
+  </tabs>
+  <sections>
+  <amosoft_integration  translate="label" module="dropship">
+      <label>General Setup</label>
+      <tab>dropship</tab>
+      <frontend_type>text</frontend_type>
+      <sort_order>40</sort_order>
+      <show_in_default>1</show_in_default>
+      <show_in_website>0</show_in_website>
+      <show_in_store>0</show_in_store>
+      <groups>
+        <integration translate="label">
+          <label>Getting Started</label>
+          <page_heading>Suppliers</page_heading>
+          <expanded>1</expanded>
+          <frontend_type>text</frontend_type>
+          <sort_order>10</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>0</show_in_website>
+          <show_in_store>0</show_in_store>
+            <fields>
+               	<notificationstatus translate="label">
+                	<frontend_type>hidden</frontend_type>
+               	</notificationstatus>
+	            <getstarted translate="label">
+	                <frontend_type>text</frontend_type>
+		               <frontend_model>dropship/adminhtml_system_config_fieldset_hint</frontend_model>
+		                <sort_order>6</sort_order>
+	                <show_in_default>1</show_in_default>
+	                <show_in_website>0</show_in_website>
+	                <show_in_store>0</show_in_store>
+	             </getstarted>
+            </fields>
+        </integration>
+      </groups>
+    </amosoft_integration>
+    
+    <amosoft_sourcing  translate="label" module="dropship">
+      <label>Configuration/Setup</label>
+      <tab>dropship</tab>
+      <frontend_type>text</frontend_type>
+      <sort_order>42</sort_order>
+      <show_in_default>1</show_in_default>
+      <show_in_website>0</show_in_website>
+      <show_in_store>0</show_in_store>
+      <groups>
+  
+        <rank translate="label">
+          <label>Sourcing Logic</label>
+          <page_heading>Sourcing</page_heading>
+          <expanded>1</expanded>
+          <frontend_type>text</frontend_type>
+          <sort_order>1</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>0</show_in_website>
+          <show_in_store>0</show_in_store>
+          <fields>
+           <ranktype translate="label">
+                <label>Sourcing Rule</label>
+                <frontend_type>select</frontend_type>
+                <source_model>dropship/system_config_source_ranktype</source_model>
+                <sort_order>0</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>0</show_in_website>
+                <show_in_store>0</show_in_store>
+                
+            </ranktype>
+            <defaultbackorder translate="label">
+                <label>Default Supplier</label>
+                <frontend_type>select</frontend_type>
+                <source_model>dropship/system_config_source_vendorlist</source_model>
+                <comment>Selected Supplier will override the backorder logic.</comment>
+                <sort_order>1</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>0</show_in_website>
+                <show_in_store>0</show_in_store>
+                
+               </defaultbackorder>
+			<email_shipment translate="label">
+                <label>Email customer when tracking is added</label>
+                <frontend_type>select</frontend_type>
+				<source_model>adminhtml/system_config_source_yesno</source_model>
+                <comment>Shipping information will automatically be sent when tracking is added.</comment>
+                <sort_order>2</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>0</show_in_website>
+                <show_in_store>0</show_in_store>              
+            </email_shipment>
+            <sourcing_type>
+            	<label>Event Driven Sourcing</label>
+                <frontend_type>select</frontend_type>
+                <source_model>adminhtml/system_config_source_yesno</source_model>
+                <comment>Select "Yes" to trigger sourcing logic in the sales_order_place_after event.</comment>
+                <sort_order>3</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>0</show_in_website>
+                <show_in_store>0</show_in_store>
+            </sourcing_type>
+			   
+            </fields>
+  
+        </rank>
+        
+        <inventory translate="label">
+          <label>Inventory</label>
+          <page_heading>Inventory</page_heading>
+          <expanded>1</expanded>
+          <frontend_type>text</frontend_type>
+          <sort_order>2</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>0</show_in_website>
+          <show_in_store>0</show_in_store>
+          <fields>
+           <buffer translate="label">
+                <label>Buffer</label>
+                <frontend_type>text</frontend_type>
+                <sort_order>0</sort_order>
+                <comment>Buffer value will be subtracted from each Supplier's inventory</comment>
+                <validate>required-entry validate-digits</validate>
+                <show_in_default>1</show_in_default>
+                <show_in_website>0</show_in_website>
+                <show_in_store>0</show_in_store>
+                
+            </buffer>
+            
+            </fields>
+  
+        </inventory>
+  
+			<integration translate="label">
+	          <label>Help</label>
+	          <page_heading>Help</page_heading>
+	          <expanded>1</expanded>
+	          <frontend_type>text</frontend_type>
+	          <sort_order>7</sort_order>
+	          <show_in_default>1</show_in_default>
+	          <show_in_website>0</show_in_website>
+	          <show_in_store>0</show_in_store>
+		          <fields>
+					   <need_help>
+						  <label>Need Help?</label>	
+				          <frontend_type>link</frontend_type>
+				          <frontend_model>dropship/adminhtml_system_config_helplink</frontend_model>
+				          <href>http://help.netdropship.amosoft.com/dropship</href>
+				          <sort_order>31</sort_order>
+				          <show_in_default>1</show_in_default>
+				          <show_in_website>0</show_in_website>
+				          <show_in_store>0</show_in_store>
+			          </need_help>
+			      </fields>
+ 	 		</integration> 
+       </groups>
+    </amosoft_sourcing>
+  </sections> 
+</config>

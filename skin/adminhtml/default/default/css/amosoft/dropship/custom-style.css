@@ -1,0 +1,77 @@
+.amosoft-adminhtml-sourcing-sourcinggrid .content-header h3,
+.amosoft-adminhtml-upload-index .content-header h3,
+.amosoft-adminhtml-ranking-index .content-header h3,
+.amosoft-adminhtml-report-activitymonitor .content-header h3 {
+  color: #1d2755;
+}
+.amosoft-adminhtml-sourcing-sourcinggrid #nav li.active, 
+.amosoft-adminhtml-upload-index #nav li.active, 
+.amosoft-adminhtml-ranking-index #nav li.active,
+.amosoft-adminhtml-report-activitymonitor #nav li.active
+{
+  background-color: #1d2755; 
+  background-repeat: repeat-x; 
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a82f7), to(#2F2727));  /* Safari 4-5, Chrome 1-9 */ 
+  background: -webkit-linear-gradient(top, #2F2727, #1a82f7); /* Safari 5.1, Chrome 10+ */
+  background: -moz-linear-gradient(top, #2F2727, #1a82f7); /* Firefox 3.6+ */ 
+  background: -ms-linear-gradient(top, #2F2727, #1a82f7); /* IE 10 */ 
+  background: -o-linear-gradient(top, #2F2727, #1a82f7); /* Opera 11.10+ */ 
+}
+
+button {
+  background: #1d2755;
+  border: 1px solid black;
+}
+button:hover:not(.back) {
+  background: #1d5b55;
+}
+.amosoft-adminhtml-sourcing-sourcinggrid dl.accordion dt, .entry-edit .entry-edit-head,
+.amosoft-adminhtml-upload-index dl.accordion dt, .entry-edit .entry-edit-head,
+.amosoft-adminhtml-ranking-index dl.accordion dt, .entry-edit .entry-edit-head,
+.amosoft-adminhtml-report-activitymonitor dl.accordion dt, .entry-edit .entry-edit-head
+{
+  background: #1d2755;
+  padding: 3px 10px;
+}
+.x-panel-header-default {
+  background-color: #1d2755;
+  background-image: -moz-linear-gradient(center top , #dae7f6, #1d2755 45%, #1d2755 46%, #1d2755 50%, #1d2755 51%, #1d2755);
+}
+.x-panel-header-text-container-default {
+  color: white;
+  font-family: tahoma,arial,verdana,sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 15px;
+  text-transform: none;
+}
+.grid tr.headings th a:hover {
+  color: #1a82f7;
+  text-decoration: none;
+}
+a {
+  color: #1a82f7;
+  text-decoration: underline;
+}
+a:hover {
+  color: #1d2755;
+  text-decoration: underline;
+}
+.amosoft-adminhtml-upload-index #messages{
+  display: none;
+}
+.amosoft-adminhtml-upload-index #messages.custom-msg{
+  display: block;
+}
+.amosoft-adminhtml-upload-index .custom-msg {
+  margin-top: 12px;
+}
+.label-msg{
+  font-size: 15px;
+}
+iframe#popup_window_content {
+  height: 115px !important;
+}
+.amosoft-adminhtml-ranking-index #messages.custom-msg{
+  display: none;
+}

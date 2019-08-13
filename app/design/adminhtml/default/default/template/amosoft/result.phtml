@@ -1,0 +1,80 @@
+<?php 
+/**
+ * Amosoft
+ *
+ * @category    Local
+ * @package     Amosoft_Dropship
+ */
+?>
+<?php $collection = $this->getLogCollection(); ?>
+
+<div class="content-header">
+  <table cellspacing="0">
+    <tr>
+      <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+      <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+    </tr>
+  </table>
+</div>
+<div class="grid">
+  <?php if(count($collection) > 0): ?>
+    <table cellspacing="0" class="data" id="amosoftgrid_table">
+      <?php foreach($collection as $key => $logArray){ ?>
+      <thead>
+        <tr class="tablelogheading" >
+         <td colspan="5"><ul class = " logheading"><li><strong><?php echo $this->formatDate($logArray['created'], 'medium', true); ?><span class="separator">|</span><strong><?php echo $key; ?></strong></li></ul></td>
+         
+       </tr>
+       <tr class="headings">
+         <th>Supplier Name</th>
+         <th>Supplier Code</th>
+         <th>Link Product</th>
+         <th>Ranking</th>
+         <th>Active</th>
+         
+       </tr>              
+     </thead>
+     
+     <tbody>
+      
+      <?php foreach($logArray as $valueArray){   ?>
+      <tr>
+       <?php unset($logArray['created']); ?>
+       <?php if(is_array($valueArray)){ ?>
+       <?php foreach($valueArray as $value){ ?>
+       
+       <td class="a-right "><?php echo $value ?> </td>
+       
+       <?php } ?>
+       <?php } ?>
+     </tr>
+     <?php } ?>
+   </tbody>
+   <?php } ?>
+ </table>
+ <script type="text/javascript">
+  var headingArr = [];
+  $$('.logheading').each(function(row){
+   
+   headingArr.push($(row).innerHTML)
+   $(row).setStyle({display:'none'})
+ })
+
+  for(var i=0; i<= headingArr.length; i++ )
+  {
+   if( headingArr[i] !=undefined ){
+    try{
+      $$('.tablelogheading')[i].innerHTML = '<td colspan="5"><ul class="" style="border-bottom: 2.5px solid #000000;margin: 15px 0 5px 5px;">'+headingArr[i]+'</ul></td>';
+    }catch(err){
+     console.log(err.message);
+   }
+ }
+}
+
+
+</script>
+
+<?php else: ?> 
+ <h1>No Data Found</h1>
+</div>
+<?php endif; ?>

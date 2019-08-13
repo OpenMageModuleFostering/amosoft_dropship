@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+   
+   <default>
+   		<reference name="notifications">
+            <block type="dropship/adminhtml_notification" name="amosoftnotification" as="amosoftnotification" template="amosoft/window.phtml" />
+        </reference>
+    </default>
+    <amosoft_adminhtml_amosoft_index>
+        <reference name="head">
+            <action method="addItem"><type>css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="dropship/adminhtml_amosoft" name="dropship" />
+        </reference>
+       <reference name="js">
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+    </amosoft_adminhtml_amosoft_index>
+    
+    <amosoft_adminhtml_sourcing_sourcinggrid>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="dropship/adminhtml_sourcing" name="dropship" />
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+    </amosoft_adminhtml_sourcing_sourcinggrid>
+    
+    <amosoft_adminhtml_ranking_index>
+        <reference name="head">
+         	<action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+        	<action method="addItem"><type>css</type><name>prototype/windows/themes/magento.css</name></action>
+        	<action method="addItem"><type>js</type><name>amosoft/extjs/ext-all.js</name></action>
+        	<action method="addItem"><type>js_css</type><name>amosoft/extjs/css/ext-all.css</name></action>
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="amosoft/inline-edit.phtml" />
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="dropship/adminhtml_ranking" name="ranking">
+            	 <block type="dropship/adminhtml_upload" name="upload" as="supplier.upload" template="amosoft/upload_vendor_product.phtml">
+            	 	 <action method="setHeaderText"><value>Setup Vendor Products</value></action>
+            	 	 <action method="setProductSetupMode"><value>true</value></action>
+            	 </block>
+            </block>
+        </reference>
+    </amosoft_adminhtml_ranking_index>
+	
+    <amosoft_adminhtml_inventory_index>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="dropship/adminhtml_inventory" name="inventory" />
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+    </amosoft_adminhtml_inventory_index>
+    
+    <amosoft_adminhtml_inventory_vendors>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/text_list" name="root" output="toHtml" >
+            <block type="dropship/adminhtml_inventory_edit_tab_amosoftvendor" name="vendors_product_tab" template="amosoft/vendorproducttab.phtml"/>
+            </block>
+        </reference>
+    </amosoft_adminhtml_inventory_vendors>
+	
+    <amosoft_adminhtml_inventory_vendorshistory>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/text_list" name="root" output="toHtml" >
+            <block type="dropship/adminhtml_inventory_edit_tab_vendortabhistory" name="vendors_product_tab_history" template="amosoft/vendorproducttabhistory.phtml"/>
+            </block>
+        </reference>
+    </amosoft_adminhtml_inventory_vendorshistory>
+    
+    <amosoft_adminhtml_upload_vendorsuploadhistory>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="dropship/adminhtml_Vendorproductuploadhistory" name="vendors_product_upload_history" template="amosoft/vendor_upload_product_history.phtml"/>
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+    </amosoft_adminhtml_upload_vendorsuploadhistory>
+    
+    <amosoft_adminhtml_ranking_popup>
+        <remove name="right"/>
+        <remove name="left"/>
+        <remove name="core_profiler"/>
+        <block type="core/template" name="root" output="toHtml" template="amosoft/popup.phtml"/>
+    </amosoft_adminhtml_ranking_popup>
+	
+    <amosoft_adminhtml_ranking_showhistory>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+         <reference name="content">
+            <block type="dropship/adminhtml_showhistory" name="showhistory" template="amosoft/result.phtml"/>
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+    </amosoft_adminhtml_ranking_showhistory>
+	
+	<amosoft_adminhtml_upload_index>
+        <reference name="head">
+            <action method="addCss"><name>css/amosoft/dropship/custom-style.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="dropship/adminhtml_inventory" name="inventory" />
+            <block type="dropship/adminhtml_upload" name="upload" template="amosoft/upload_vendor_product.phtml">
+            	  <action method="setHeaderText"><value>Vendor/Supplier Inventory</value></action>
+            </block>
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="amosoft/add_help_js.phtml"/>
+        </reference>
+    </amosoft_adminhtml_upload_index>
+    <amosoft_adminhtml_upload_run>
+        <remove name="root"/>
+        <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+            <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+                <action method="addJs"><script>prototype/prototype.js</script></action>
+                <action method="addJs"><script>prototype/validation.js</script></action>
+                <action method="addJs"><script>varien/js.js</script></action>
+                <action method="addJs"><script>mage/translate.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+            </block>
+            <block type="dropship/adminhtml_upload_bulkassign" name="amosoft_bulkassign" template="amosoft/process-profile.phtml" output="toHtml"/>
+        </block>
+    </amosoft_adminhtml_upload_run>
+	
+	 <adminhtml_sales_order_view>
+	  <reference name="order_items"> 
+	  		<action method="setTemplate">
+            	<template>amosoft/sales/items.phtml</template>
+            </action>	
+            <action method="addItemRender">
+            	<type>default</type>
+            	<block>adminhtml/sales_order_view_items_renderer_default</block>
+            	<template>amosoft/sales/default.phtml</template>
+            </action>
+            <action method="addItemRender">
+	            <type>bundle</type>
+	            <block>bundle/adminhtml_sales_order_view_items_renderer</block>
+	            <template>amosoft/bundle/renderer.phtml</template>
+            </action>
+            <action method="addItemRender">
+	            <type>downloadable</type>
+	            <block>adminhtml/sales_order_view_items_renderer_default</block>
+	            <template>amosoft/downloadable/downloadable.phtml</template>
+            </action>
+      </reference> 	 
+	</adminhtml_sales_order_view>
+    
+    <adminhtml_catalog_product_edit>
+        <reference name="product_tabs">
+			<block type="dropship/adminhtml_inventory_edit_vendortab" name="vendor_tab"/>
+				<action method="addTab">
+					<name>vendor_tab</name>
+					<block>vendor_tab</block>
+				</action>
+				<block type="dropship/adminhtml_inventory_edit_vendortabhistory" name="vendor_tab_history"/>
+				<action method="addTab">
+					<name>vendor_tab_history</name>
+					<block>vendor_tab_history</block>
+				</action>
+        </reference>
+    </adminhtml_catalog_product_edit>
+</layout>

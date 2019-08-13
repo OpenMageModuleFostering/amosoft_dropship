@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Amosoft_Dropship",
+    "type": "magento-module",
+    "license": "Amosoft",
+    "homepage": "",
+    "description": "Amosoft enables Magento merchants to seamlessly connect with vendors/suppliers via EDI for drop ship automation.",
+    "authors": [
+    {
+        "name": "Ravi",
+        "email": "ratia@amosoft.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

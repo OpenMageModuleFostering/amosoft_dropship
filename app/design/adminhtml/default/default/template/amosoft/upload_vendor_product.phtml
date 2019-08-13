@@ -1,0 +1,66 @@
+<?php 
+/**
+ * Amosoft
+ *
+ * @category    Local
+ * @package     Amosoft_Dropship
+ */
+?>
+<div class="custom-msg" id="messages"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+
+<?php echo $this->getFormHtml() ?>
+<div>
+    <?php echo $this->getChildHtml('inventory') ?>
+</div>
+<script type="text/javascript">
+    editForm = new varienForm('edit_form', '<?php echo $this->getValidationUrl() ?>');
+</script>
+<?php if($this->getProductSetupMode()): ?>
+<?php echo $this->getFormScripts() ?>
+<?php endif; ?>
+
+<script type="text/javascript">
+//<![CDATA[
+var isProductModeSteup = '<?php echo $this->getProductSetupMode() ?>';
+var formSubmit = false;
+function downloadSampleCsv()
+		{
+			if(isProductModeSteup)
+			setLocation("<?php echo $this->getUrl('amosoft/adminhtml_upload/download',array('_query'=>array('isproductsetupmode' => true))) ?>");
+			else
+			setLocation("<?php echo $this->getUrl('amosoft/adminhtml_upload/download') ?>");
+		}
+		document.observe("dom:loaded", function(){
+			if($('uploadStarted'))
+				$('uploadStarted').value = 0;
+		});
+
+		
+	$('upload_button').observe('click', function() { if(editForm.validate()){formSubmit = true;} });
+	//window.onbeforeunload = confirmExit;
+	function confirmExit(evt) {
+		
+			if(formSubmit){
+		 new Ajax.Request("<?php echo $this->getUrl('*/*/terminate'); ?>", {
+	           method: "post",
+	           parameters: {form_key: '<?php echo $this->getFormKey();?>'},
+				asynchronous : true,
+					 });
+			
+			return;
+			}else
+			{
+				return null;
+			}
+		}
+
+//]]>
+</script>
